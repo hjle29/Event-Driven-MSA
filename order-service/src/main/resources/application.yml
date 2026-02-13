@@ -4,7 +4,14 @@ server:
 spring:
   application:
     name: order-service
-
+  datasource:
+    url: jdbc:postgresql://localhost:5432/memberdb
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 eureka:
   client:
     register-with-eureka: true
