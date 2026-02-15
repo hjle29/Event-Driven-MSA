@@ -1,6 +1,13 @@
 package io.github.hjle.member;
 
+import com.hjle.common.dto.response.ApiResponse;
+import io.github.hjle.member.dto.MemberEntity;
+import io.github.hjle.member.dto.request.SignUpRequest;
+import io.github.hjle.member.dto.response.MemberResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -8,16 +15,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
 
     @PostMapping("/signup")
-    public MemberEntity signup(@RequestBody MemberEntity member) {
-        return memberRepository.save(member);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<MemberEntity> signUp(@Valid @RequestBody SignUpRequest request) {
+        MemberEntity response = memberService.signUp(request);
+        return ApiResponse.success(response);
     }
 
-    @GetMapping("/{userId}")
-    public MemberEntity getMember(@PathVariable String userId) {
-        return memberRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. userId=" + userId));
+    @GetMapping("/{id}")
+    public ApiResponse<MemberEntity> getMember(@PathVariable String id) {
+        MemberEntity response = memberService.getMember(id);
+        return ApiResponse.success(response);
     }
 }

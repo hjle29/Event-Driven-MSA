@@ -1,5 +1,6 @@
 package io.github.hjle.member;
 
+import io.github.hjle.member.dto.MemberEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
