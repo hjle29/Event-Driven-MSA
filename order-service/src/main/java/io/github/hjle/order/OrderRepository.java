@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<OrderBaseEntity, Long> {
     List<OrderBaseEntity> findByUserId(String userId);
+    List<OrderBaseEntity> findByStatus(OrderStatus status);
 }
