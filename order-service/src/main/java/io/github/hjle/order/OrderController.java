@@ -39,4 +39,9 @@ public class OrderController {
 
         return result;
     }
+
+    @GetMapping("/status/{status}")
+    public List<OrderBaseEntity> getOrdersByStatus(@PathVariable String status) {
+        return orderRepository.findByStatus(OrderStatus.valueOf(status));
+    }
 }

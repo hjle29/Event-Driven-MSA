@@ -2,15 +2,15 @@ package io.github.hjle.member;
 
 import io.github.hjle.member.dto.MemberEntity;
 import io.github.hjle.member.dto.request.SignUpRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public MemberEntity signUp(SignUpRequest request) {
         MemberEntity newEntity = MemberEntity
@@ -18,6 +18,7 @@ public class MemberService {
                 .userId(request.getUserId())
                 .email(request.getEmail())
                 .name(request.getName())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .build();
         return memberRepository.save(newEntity);
     }
