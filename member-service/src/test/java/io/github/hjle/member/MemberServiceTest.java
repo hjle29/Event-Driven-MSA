@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -26,6 +27,9 @@ class MemberServiceTest {
     @Mock
     private MemberRepository memberRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;  // 이거 추가
+
     @Test
     @DisplayName("회원가입 성공")
     void signUp_success() {
@@ -38,6 +42,7 @@ class MemberServiceTest {
                 .name("테스트")
                 .build();
 
+        given(passwordEncoder.encode(any(String.class))).willReturn("encodedPassword");  // 이것도 추가
         given(memberRepository.save(any(MemberEntity.class))).willReturn(savedEntity);
 
         // when
@@ -48,6 +53,7 @@ class MemberServiceTest {
         assertThat(result.getEmail()).isEqualTo("test@email.com");
         assertThat(result.getName()).isEqualTo("테스트");
         verify(memberRepository).save(any(MemberEntity.class));
+        verify(passwordEncoder).encode("password123");  // 이것도 추가하면 좋음
     }
 
     @Test

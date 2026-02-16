@@ -3,11 +3,9 @@ package io.github.hjle.member;
 import com.hjle.common.dto.response.ApiResponse;
 import io.github.hjle.member.dto.MemberEntity;
 import io.github.hjle.member.dto.request.SignUpRequest;
-import io.github.hjle.member.dto.response.MemberResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
