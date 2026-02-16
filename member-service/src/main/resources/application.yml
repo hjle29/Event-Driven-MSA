@@ -38,6 +38,12 @@ spring:
     redis:
       time-to-live: 300000
 
+  Kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
 jwt:
   secret: mySecretKeyForJwtTokenGenerationMustBeLongEnough128bits!!
   access-token-expiry: 1800000
@@ -51,7 +57,7 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 resilience4j:
-  circuitbreaker:
+  circuit breaker:
     configs:
       default:
         failure-rate-threshold: 50
@@ -67,7 +73,7 @@ resilience4j:
         wait-duration: 100
         interval-function: exponential-random-backoff
 
-  timelimiter:
+  time limiter:
     configs:
       default:
         timeout-duration: 2s
