@@ -38,6 +38,11 @@ spring:
     redis:
       time-to-live: 300000
 
+jwt:
+  secret: mySecretKeyForJwtTokenGenerationMustBeLongEnough128bits!!
+  access-token-expiry: 1800000
+  refresh-token-expiry: 604800000
+
 eureka:
   client:
     register-with-eureka: true
