@@ -40,17 +40,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             try {
                 MemberEntity member = memberService.getMemberByEmail(email);
-                if (member != null) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            member,
-                            null,
-                            List.of(new SimpleGrantedAuthority("ROLE_USER"))
-                    );
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else {
-                    log.warn("JWT 토큰의 사용자를 찾을 수 없습니다.");
-                }
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        member,
+                        null,
+                        List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                );
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (IllegalArgumentException e) {
                 log.warn("JWT 토큰의 사용자를 찾을 수 없습니다: {}", e.getMessage());
             }

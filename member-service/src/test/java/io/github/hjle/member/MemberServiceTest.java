@@ -93,27 +93,11 @@ class MemberServiceTest {
     }
 
     private SignUpRequest createSignUpRequest() {
-        try {
-            SignUpRequest request = SignUpRequest.class.getDeclaredConstructor().newInstance();
-            var emailField = SignUpRequest.class.getDeclaredField("email");
-            emailField.setAccessible(true);
-            emailField.set(request, "test@email.com");
-
-            var userIdField = SignUpRequest.class.getDeclaredField("userId");
-            userIdField.setAccessible(true);
-            userIdField.set(request, "testUser");
-
-            var passwordField = SignUpRequest.class.getDeclaredField("password");
-            passwordField.setAccessible(true);
-            passwordField.set(request, "password123");
-
-            var nameField = SignUpRequest.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(request, "테스트");
-
-            return request;
-        } catch (Exception e) {
-            throw new RuntimeException("테스트 객체 생성 실패", e);
-        }
+        return SignUpRequest.builder()
+                .email("test@email.com")
+                .userId("testUser")
+                .password("password123")
+                .name("테스트")
+                .build();
     }
 }
