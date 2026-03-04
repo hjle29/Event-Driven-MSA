@@ -3,6 +3,7 @@ package io.github.hjle.settlement;
 import io.github.hjle.settlement.dto.OrderResponse;
 import io.github.hjle.settlement.dto.SettlementEntity;
 import jakarta.transaction.Transactional;
+import io.github.hjle.settlement.SettlementStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class SettlementService {
                     .totalAmount(totalAmount)
                     .feeAmount(feeAmount)
                     .settlementAmount(settlementAmount)
-                    .status("READY")
+                    .status(SettlementStatus.READY)
                     .build();
 
             settlementRepository.save(settlement);
