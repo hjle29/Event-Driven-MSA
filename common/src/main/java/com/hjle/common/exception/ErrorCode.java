@@ -18,7 +18,11 @@ public enum ErrorCode {
     // Member
     EMAIL_DUPLICATION(400, "M001", "Email is duplicated"),
     LOGIN_INPUT_INVALID(400, "M002", "Login input is invalid"),
-    INVALID_TOKEN(401, "M003", "Invalid token");
+    INVALID_TOKEN(401, "M003", "Invalid token"),
+
+    // Order
+    ORDER_NOT_FOUND(404, "O001", "Order not found"),
+    ORDER_MEMBER_FETCH_FAILED(503, "O002", "Failed to fetch member info for order");
 
     private final int status;
     private final String code;
