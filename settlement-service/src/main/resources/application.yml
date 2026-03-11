@@ -1,80 +1,33 @@
 server:
-  port: 8083
-
+  port: 8084
 spring:
   application:
     name: settlement-service
-
   datasource:
-    url: jdbc:postgresql://localhost:5432/settlementdb
-    username: postgres
-    password: password
-    hikari:
-      maximum-pool-size: 20
-      minimum-idle: 5
-      connection-timeout: 10000
-      idle-timeout: 600000
-      max-lifetime: 1800000
-
+    url: ${SETTLEMENT_DB_URL:jdbc:postgresql://localhost:5432/settlement_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
   jpa:
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        jdbc:
-          batch_size: 20
-          fetch_size: 100
-
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      timeout: 2000ms
-
-  cache:
-    type: redis
-    redis:
-      time-to-live: 300000
-
+    show-sql: false
   kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-
-resilience4j:
-  circuitbreaker:
-    configs:
-      default:
-        failure-rate-threshold: 50
-        wait-duration-in-open-state: 30000
-        permitted-calls-in-half-open-state: 3
-        sliding-window-size: 100
-        sliding-window-type: count_based
-
-  retry:
-    configs:
-      default:
-        max-attempts: 3
-        wait-duration: 100
-        interval-function: exponential-random-backoff
-
-  timelimiter:
-    configs:
-      default:
-        timeout-duration: 2s
-
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: settlement-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.payment.event,com.settlement.event"
+kafka:
+  topic:
+    payment-completed: payment-completed
 management:
   endpoints:
     web:
       exposure:
-        include: health,metrics,circuitbreaker,circuitbreakerevents
+        include: health,info,prometheus,metrics
+  endpoint:
+    prometheus:
+      enabled: true
